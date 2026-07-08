@@ -21,10 +21,11 @@ app.use(
     origin: [
       'https://ecoglam.vercel.app',
       'https://ecoglam-xi.vercel.app',
+      'https://ecoglam-phi.vercel.app',
       'http://localhost:5173',
       'http://localhost:5174',
     ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
   })
 );
