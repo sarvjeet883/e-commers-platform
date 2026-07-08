@@ -22,6 +22,10 @@ const faqs = [
     question: 'What is the delivery time for EcoGlam products?',
     answer: 'We offer 2-3 day delivery across the country.',
   },
+  {
+    question: 'Can I return or exchange products?',
+    answer: 'Yes! We have a 7-day return policy for unopened products. Please contact our support team for assistance.',
+  },
 ];
 
 const FAQ = () => {
