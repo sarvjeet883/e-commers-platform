@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { FiShoppingCart } from "react-icons/fi";
-import { X } from "lucide-react";
+import { FiShoppingCart, FiHeart } from "react-icons/fi";
+import SearchBar from "./SearchBar";
 
 const MobileMenu = ({
   navLinks,
@@ -11,18 +11,11 @@ const MobileMenu = ({
   cartCount,
   handleClose,
 }) => (
-  <div className="lg:hidden bg-white border-t border-gray-200 shadow-lg fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto">
-    <div className="px-4 py-3 space-y-2">
-      {/* Close Button - Mobile optimized */}
-      <div className="flex justify-end pb-2">
-        <button 
-          onClick={handleClose} 
-          aria-label="Close Menu"
-          className="p-2 -m-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
-        >
-          <X className="h-5 w-5 text-gray-600 hover:text-red-600" />
-        </button>
-      </div>
+  /* Dropdown panel anchored below the navbar, aligned to the right */
+  <div className="lg:hidden absolute top-full right-0 left-0 xs:left-auto xs:w-80 z-50 bg-white border border-gray-100 shadow-2xl xs:rounded-b-2xl xs:rounded-tl-2xl max-h-[calc(100vh-5rem)] overflow-y-auto animate-slide-down">
+    <div className="px-4 py-4 space-y-2">
+      {/* Product search */}
+      <SearchBar className="mb-2" />
 
       {/* Main Navigation Links - Mobile optimized spacing */}
       <div className="space-y-1">
@@ -101,6 +94,16 @@ const MobileMenu = ({
             )}
           </div>
 
+          {/* Wishlist Button */}
+          <Link
+            to="/wishlist"
+            className="flex items-center justify-center xs:justify-start gap-2 py-2 px-3 text-gray-800 hover:text-rose-600 hover:bg-rose-50 rounded transition-all duration-200"
+            onClick={handleClose}
+          >
+            <FiHeart className="text-lg" />
+            <span className="font-medium text-sm">Wishlist</span>
+          </Link>
+
           {/* Cart Button - Mobile optimized */}
           <Link
             to="/cart"
@@ -121,8 +124,6 @@ const MobileMenu = ({
       </div>
     </div>
 
-    {/* Safe area padding for iOS devices */}
-    <div className="pb-safe"></div>
   </div>
 );
 

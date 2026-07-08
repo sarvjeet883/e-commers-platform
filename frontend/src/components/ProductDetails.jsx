@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCart } from '../context/ProductContext';
-import myProducts from '../data/myProducts.json';
+import { useCatalog } from '../context/CatalogContext';
 
 import Breadcrumb from "../product-components/Breadcrumb";
 import ProductGallery from "../product-components/ProductGallery";
@@ -15,6 +15,7 @@ import RelatedProducts from "../product-components/RelatedProducts";
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { catalog: myProducts } = useCatalog();
   const { products, addProduct, removeProduct } = useCart();
   
   const product = myProducts.find(p => p.id === parseInt(id));

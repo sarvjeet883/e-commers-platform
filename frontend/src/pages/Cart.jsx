@@ -12,6 +12,7 @@ import ShippingInfo from "../components/cart/ShippingInfo";
 import PaymentModal from "../components/cart/PaymentModal";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { placeOrder } from "../api";
 
 const Cart = () => {
   const { products, updateQuantity, removeProduct, clearCart } = useCart();
@@ -99,23 +100,46 @@ const Cart = () => {
     alert("UPI ID copied to clipboard!");
   };
 
-  const handleUtrSubmit = () => {
+  const handleUtrSubmit = async () => {
     if (utrNumber.trim().length < 8) {
-      alert("Please enter a valid UTR number");
+      toast.error("Please enter a valid UTR number");
       return;
     }
 
     setUtrSubmitted(true);
-    
+
+    // Persist the order to the backend (MongoDB)
+    const addressText =
+      typeof deliveryAddress === "string"
+        ? deliveryAddress
+        : Object.values(deliveryAddress || {}).filter(Boolean).join(", ");
+
+    try {
+      const res = await placeOrder({
+        items: products.map((p) => ({
+          productId: p.id,
+          name: p.name,
+          price: p.price,
+          quantity: p.quantity,
+          image: p.image,
+        })),
+        totalAmount: Number(totalPrice.toFixed(2)),
+        utrNumber: utrNumber.trim(),
+        shippingAddress: addressText,
+      });
+      setOrderNumber(res.orderNumber);
+    } catch (err) {
+      // Fall back to a local order number if the API is unreachable
+      console.error("Order API failed:", err.message);
+      setOrderNumber(
+        "ORD" + Math.floor(Math.random() * 1000000).toString().padStart(6, "0")
+      );
+    }
+
+    setOrderPlaced(true);
     setTimeout(() => {
-      const randomOrderNum = "ORD" + Math.floor(Math.random() * 1000000).toString().padStart(6, "0");
-      setOrderNumber(randomOrderNum);
-      setOrderPlaced(true);
-      
-      setTimeout(() => {
-        clearCart();
-      }, 5000);
-    }, 1500);
+      clearCart();
+    }, 5000);
   };
 
   const handleContinueShopping = () => {

@@ -3,9 +3,10 @@ import { MessageCircle, Sparkles, X } from 'lucide-react';
 import ChatHeader from '../chatbot/ChatHeader';
 import ChatMessages from '../chatbot/ChatMessages';
 import ChatInput from '../chatbot/ChatInput';
-import productsData from '../data/myProducts.json';
+import { useCatalog } from '../context/CatalogContext';
 
 const FaceProductsChatbot = () => {
+  const { catalog: productsData } = useCatalog();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -105,16 +106,21 @@ const FaceProductsChatbot = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-4 rounded-full shadow-lg hover:scale-105 transition"
+          aria-label="Open skincare assistant"
+          className="relative bg-gradient-to-r from-pink-500 to-purple-600 text-white p-4 rounded-full shadow-xl shadow-purple-500/30 hover:scale-110 active:scale-95 transition-transform duration-300"
         >
           <MessageCircle size={24} />
+          <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+          </span>
         </button>
       ) : (
-        <div className="bg-white rounded-2xl shadow-2xl w-96 h-[500px] flex flex-col overflow-hidden border border-gray-200">
+        <div className="bg-white rounded-2xl shadow-2xl w-[calc(100vw-2rem)] max-w-sm sm:w-96 h-[70vh] max-h-[500px] flex flex-col overflow-hidden border border-gray-200">
           <ChatHeader onClose={() => setIsOpen(false)} />
           <ChatMessages messages={messages} isTyping={isTyping} messagesEndRef={messagesEndRef} />
           <ChatInput

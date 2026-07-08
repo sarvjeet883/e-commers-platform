@@ -2,18 +2,21 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const ProductContext = createContext();
 
+const CART_KEY = "ecoglam_cart";
+
 const ProductContextWrapper = ({ children }) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(() => {
+    // Cart survives page refresh (like Flipkart)
+    try {
+      const stored = localStorage.getItem(CART_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
 
   useEffect(() => {
-    const total = products.reduce((sum, pr) => {
-      if (typeof pr.price === "string") {
-        const numericPrice = parseFloat(pr.price.replace(/[^0-9.]/g, ""));
-        return sum + (numericPrice * (pr.quantity || 1));
-      }
-      return sum;
-    }, 0);
-    console.log("Total cart price:", total);
+    localStorage.setItem(CART_KEY, JSON.stringify(products));
   }, [products]);
 
   const addProduct = (product) => {
@@ -52,9 +55,11 @@ const ProductContextWrapper = ({ children }) => {
     );
   };
 
+  const clearCart = () => setProducts([]);
+
   return (
     <ProductContext.Provider
-      value={{ products, addProduct, removeProduct, updateQuantity }}
+      value={{ products, addProduct, removeProduct, updateQuantity, clearCart }}
     >
       {children}
     </ProductContext.Provider>

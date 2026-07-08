@@ -1,9 +1,10 @@
 
-import myProducts from '../data/myProducts.json';
+import { useCatalog } from '../context/CatalogContext';
 import { useCart } from '../context/ProductContext';
 import ProductCard from '../components/ProductCard';
 
 const NormalSkin = () => {
+  const { catalog: myProducts } = useCatalog();
   const { products, addProduct, removeProduct } = useCart();
 
   const normalSkinProducts = myProducts.filter(

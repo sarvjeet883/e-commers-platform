@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useCart } from '../context/ProductContext';
 import ProductCard from '../components/ProductCard';
-import myProducts from '../data/myProducts.json';
+import { useCatalog } from '../context/CatalogContext';
 import { Search, Filter, X, ChevronDown, ChevronUp } from 'lucide-react';
 import CartSidebar from '../components/cart/CartSidebar';
 
 
 
 const OurProducts = () => {
+  const { catalog: myProducts } = useCatalog();
   const { products, addProduct, removeProduct } = useCart();
   const [searchTerm, setSearchTerm] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

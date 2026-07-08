@@ -28,6 +28,9 @@ import FaceProductsChatbot from "./components/FaceProductsChatbot";
 import { AuthProvider } from "./context/AuthContext";
 import PageNotFound from "./pages/PageNotFound";
 import ScrollToTop from "./pages/ScrollToTop";
+import Wishlist from "./pages/Wishlist";
+import MyOrders from "./pages/MyOrders";
+import AdminPanel from "./pages/AdminPanel";
 
 
 
@@ -88,6 +91,12 @@ function App() {
               <Route path="/quiz" element={<Quiz />}></Route>
 
               <Route path="/cart" element={<Cart />}></Route>
+
+              <Route path="/wishlist" element={<Wishlist />}></Route>
+
+              <Route path="/myorders" element={<MyOrders />}></Route>
+
+              <Route path="/admin" element={<AdminPanel />}></Route>
 
               <Route path="*" element={<PageNotFound />}></Route>
                <Route path="/product/:id" element={<ProductDetails />} />

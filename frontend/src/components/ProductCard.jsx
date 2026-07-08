@@ -1,7 +1,11 @@
 // components/ProductCard.js
 import { Link } from 'react-router-dom';
+import { Heart } from 'lucide-react';
+import { useWishlist } from '../context/WishlistContext';
 
 const ProductCard = ({ product, isInCart, onAdd, onRemove, showActions = true }) => {
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const wishlisted = isInWishlist(product.id);
   // Star rating renderer
   const renderStars = (rating) => {
     const totalStars = 5;
@@ -24,6 +28,17 @@ const ProductCard = ({ product, isInCart, onAdd, onRemove, showActions = true })
 
   return (
     <div className="relative rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-white group">
+      {/* Wishlist heart */}
+      <button
+        onClick={() => toggleWishlist(product)}
+        aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm shadow-md hover:scale-110 active:scale-95 transition-transform duration-200"
+      >
+        <Heart
+          size={18}
+          className={wishlisted ? 'text-rose-500 fill-rose-500' : 'text-gray-500'}
+        />
+      </button>
       <Link to={`/product/${product.id}`} className="block relative aspect-[4/3] overflow-hidden">
   <img
     src={product.image}

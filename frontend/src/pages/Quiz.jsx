@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { CheckCircle, ArrowRight, ArrowLeft, User, Sparkles, RefreshCw, ShoppingBag } from "lucide-react";
-import myProducts from "../data/myProducts.json";
+import { useCatalog } from "../context/CatalogContext";
 import { useNavigate } from "react-router-dom";
 
 function SkincareQuiz() {
+  const { catalog: myProducts } = useCatalog();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [name, setName] = useState("");

@@ -1,0 +1,19 @@
+const express = require('express');
+const {
+  getStats,
+  getAllOrders,
+  updateOrderStatus,
+  getAllUsers,
+} = require('../controllers/adminController');
+const { protect, adminOnly } = require('../middleware/authMiddleware');
+
+const router = express.Router();
+
+router.use(protect, adminOnly); // every admin route requires an admin JWT
+
+router.get('/stats', getStats);
+router.get('/orders', getAllOrders);
+router.patch('/orders/:id/status', updateOrderStatus);
+router.get('/users', getAllUsers);
+
+module.exports = router;
